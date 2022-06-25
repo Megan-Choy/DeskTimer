@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    
+    <script type = "text/javascript" src = timer.js></script>
   </head>
   <body>
     <h1 id = "title">
@@ -12,6 +12,8 @@
     </h2>
     <h2 id = "wStart">
       Start
+      <input type = "button" onclick = setTimer(300) value = "set">
+      <input type = "button" onclick = setInterval(start(),1000) value = "start">
     </h2>
     <h2 id = "wReset">
       Reset
@@ -19,9 +21,14 @@
     <h2 id = "wStop">
       Stop
     </h2>
-    <h2 id = "wTime">
-      00:00
-    </h2>
+    <p id = "wMins"></p>
+    <script> 
+        setInterval(document.getElementById("wMins").innerHTML = getMinutes() + " mins", 1000);
+    </script>
+    <p id = "wSecs"></p>
+    <script> 
+        setInterval(document.getElementById("wSecs").innerHTML = getSeconds() + " secs", 1000);
+    </script>
     <h2 class = "subtitles">
       Posture Timer:
     </h2>
