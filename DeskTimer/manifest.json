@@ -1,6 +1,13 @@
 {
   "name": "Desk Timer",
-  "description": "Set repeating timers to make sure you drink water, check your         posture, and stand up regularly when you are working at your desk all day!"
-  "version": "1.0"
-  "manifest_version": 3
+  "description": "Set repeating timers to make sure you drink water, check your posture, and stand up regularly when you are working at your desk all day!",
+  "version": "1.0",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": ["storage"],
+  "action": {
+    "default_popup": "index.html"
+  }
 }
