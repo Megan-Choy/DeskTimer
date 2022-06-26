@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   let wTime = document.querySelector('#wTime');
   let wButton = document.querySelector('#wButton');
+  let back = document.querySelector('#back');
 
   wButton.disabled = true;
   
@@ -14,9 +15,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let start = setInterval(function() {
       var timeLeft = countDownDate - new Date().getTime();
-      chrome.storage.local.set({timeLeft: timeLeft}, function() {
-      console.log('Value is set to ' + timeLeft);
-      });aigh
 
       minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
@@ -31,20 +29,19 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector("#wTimer").innerHTML = minutes + ":" + seconds;
         
       } else {
-        document.querySelector("#wTimer").innerHTML = "Time is up!";
         index.style.display = "none";
         waterBreak.style.display = "block";
         clearInterval(start);
       }
 
-      wButton.onclick = function() {
-        document.getElementById(buttonID).value = "Continue";
-        while(true)
-          {
-            await new Promise(res => { setTimeout(res, 3600000); });
+      // wButton.onclick = function() {
+      //   document.getElementById(buttonID).value = "Continue";
+      //   while(true)
+      //     {
+      //       await new Promise(res => { setTimeout(res, 3600000); });
             
-          }
-      }
+      //     }
+      // }
     }, 1000)
     }
 
@@ -56,6 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
     if (wTime.value.length > 0) {
       wButton.disabled = false;
     }
+  }
+
+  back.onclick = function() {
+        index.style.display = "block";
+        waterBreak.style.display = "none";
+    wTime.disabled = false;
+    wButton.value = "Start";
+    wTime.value = "00:00";
   }
 
 function setTimer(countDown) {    
