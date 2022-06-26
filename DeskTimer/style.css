@@ -6,6 +6,9 @@ h1, h2 {
   color: #1e00ff;
 }
 
+p {
+  font-size: 16px;
+}
 .button {
   background-color: #89A1EF; 
   border: none;
