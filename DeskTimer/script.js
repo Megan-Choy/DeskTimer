@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
-
+  
+  let index = document.getElementById("index");
+  let waterBreak = document.getElementById("waterBreak");
+  waterBreak.style.display = "none";
   
   let wTime = document.querySelector('#wTime');
   let wButton = document.querySelector('#wButton');
@@ -11,7 +14,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let start = setInterval(function() {
       var timeLeft = countDownDate - new Date().getTime();
-  
+      chrome.storage.local.set({timeLeft: timeLeft}, function() {
+      console.log('Value is set to ' + timeLeft);
+      });aigh
+
       minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
       seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
   
@@ -26,7 +32,18 @@ document.addEventListener('DOMContentLoaded', function() {
         
       } else {
         document.querySelector("#wTimer").innerHTML = "Time is up!";
+        index.style.display = "none";
+        waterBreak.style.display = "block";
         clearInterval(start);
+      }
+
+      wButton.onclick = function() {
+        document.getElementById(buttonID).value = "Continue";
+        while(true)
+          {
+            await new Promise(res => { setTimeout(res, 3600000); });
+            
+          }
       }
     }, 1000)
     }
