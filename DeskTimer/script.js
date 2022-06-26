@@ -3,50 +3,32 @@ document.addEventListener('DOMContentLoaded', function() {
   let index = document.getElementById("index");
   let waterBreak = document.getElementById("waterBreak");
   waterBreak.style.display = "none";
+  let postureBreak = document.getElementById("postureBreak");
+  postureBreak.style.display = "none";
+  let restBreak = document.getElementById("restBreak");
+  restBreak.style.display = "none";
+  let backButton = document.getElementById("backButton");
+  backButton.style.display = "none";
   
   let wTime = document.querySelector('#wTime');
   let wButton = document.querySelector('#wButton');
+  let pTime = document.querySelector('#pTime');
+  let pButton = document.querySelector('#pButton');
+  let rTime = document.querySelector('#rTime');
+  let rButton = document.querySelector('#rButton');
+  
   let back = document.querySelector('#back');
 
   wButton.disabled = true;
   
   wButton.onclick = function() {
-    if (countDown("wTime", "wButton")) {
-
-    let start = setInterval(function() {
-      var timeLeft = countDownDate - new Date().getTime();
-
-      minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-      seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-  
-      if (timeLeft > 0) {
-        if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-        document.querySelector("#wTimer").innerHTML = minutes + ":" + seconds;
-        
-      } else {
-        index.style.display = "none";
-        waterBreak.style.display = "block";
-        clearInterval(start);
-      }
-
-      // wButton.onclick = function() {
-      //   document.getElementById(buttonID).value = "Continue";
-      //   while(true)
-      //     {
-      //       await new Promise(res => { setTimeout(res, 3600000); });
-            
-      //     }
-      // }
-    }, 1000)
-    }
-
-    wTime.value = ' ';
-    return false;
+    runTimer("wTime", "wButton", "wTimer");
+  }
+  pButton.onclick = function() {
+    runTimer("pTime", "pButton", "pTimer");
+  }
+  rButton.onclick = function() {
+    runTimer("rTime", "rButton", "rTimer");
   }
 
   wTime.onkeyup = function(){
@@ -56,14 +38,22 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   back.onclick = function() {
-        index.style.display = "block";
-        waterBreak.style.display = "none";
+    index.style.display = "block";
+    waterBreak.style.display = "none";
+    postureBreak.style.display = "none";
+    restBreak.style.display = "none";
+    backButton.style.display = "none";
     wTime.disabled = false;
     wButton.value = "Start";
-    wTime.value = "00:00";
+    pTime.disabled = false;
+    pButton.value = "Start";
+    rTime.disabled = false;
+    rButton.value = "Start";
+    
   }
 
 function setTimer(countDown) {    
+
   return countDownDate = new Date().getTime() + countDown * 1000;
 }
 
@@ -86,15 +76,59 @@ function countDown(textID, buttonID) {
   }
   document.getElementById(buttonID).value = "Pause";
   document.getElementById(textID).disabled = true;
-  let newString = wTime.value;
+  let newString = document.getElementById(textID).value;
   
   let indexOfColon = newString.indexOf(':');
   let mins = newString.substring(0,indexOfColon);
   let secs = newString.substring(indexOfColon+1);
   let total = parseInt(mins) * 60 + parseInt(secs);
-    
+
+
+  
   setTimer(total)
 
   return true;
+}
+
+function runTimer(textID, buttonID, timerID) {
+    if (countDown(textID, buttonID)) {
+    let start = setInterval(function() {
+      var timeLeft = countDownDate - new Date().getTime();
+      minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+      seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  
+      if (timeLeft > 0) {
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+        document.getElementById(timerID).innerHTML = minutes + ":" + seconds;
+        
+      } else {
+        index.style.display = "none";
+        if (textID == "wTime")
+          waterBreak.style.display = "block";
+        else if (textID == "pTime")
+          postureBreak.style.display = "block";
+        else if (textID == "rTime")
+          restBreak.style.display = "block";
+        backButton.style.display = "block";
+        clearInterval(start);
+      }
+
+      // wButton.onclick = function() {
+      //   document.getElementById(buttonID).value = "Continue";
+      //   while(true)
+      //     {
+      //       await new Promise(res => { setTimeout(res, 3600000); });
+            
+      //     }
+      // }
+    }, 1000)
+    }
+  document.getElementById(textID).value = '';
+  return false;
 }
 });
